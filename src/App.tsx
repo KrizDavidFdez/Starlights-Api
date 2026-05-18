@@ -300,7 +300,7 @@ const HomeView = () => {
         if (data.current_weather) {
             setWeather({
               temp: `${Math.round(data.current_weather.temperature)}°C`,
-              desc: "Temperature
+              desc: "Temperature",
             });
         }
       }).catch(err => {
