@@ -580,6 +580,17 @@ const APIsView = () => {
           }
         },
         { 
+  "name": "GPT-4o", 
+  "icon": "Sparkles", 
+  "desc": "Model used in this api is Openai version Gpt-4o",
+  "method": "POST",
+  "auth": "SERVER",
+  "terminal": { 
+    "file": "GPT-4O.JS",
+    "cmd": "POST https://light-apis.vercel.app/api/ai/gpt-4o --data '{\"message\":\"Hello\"}'" 
+  }
+},
+        { 
           name: "Contextual NLP", 
           icon: MessageCircle, 
           desc: "Natural language processing with high-dimensional context awareness.",
