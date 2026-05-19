@@ -54,7 +54,7 @@ interface Theme {
 }
 
 // --- Components ---
-
+const domainApi = "https://starlights-api.vercel.app"
 const Navbar = ({ activePage, onNavigate }: { activePage: PageId, onNavigate: (page: PageId) => void }) => {
   const menuItems = [
     { id: "home" as const, text: "Home", icon: Home },
@@ -586,10 +586,10 @@ const APIsView = () => {
   "method": "POST",
   "auth": "SERVER",
   "terminal": { 
-    "file": "GPT-4O.JS",
-    "cmd": "POST https://light-apis.vercel.app/api/ai/gpt-4o --data '{\"message\":\"Hello\"}'" 
+    "file": "GPT-4o",
+    "cmd": "curl -X POST ${domainApi}/api/ai/gpt-4o -H \"Content-Type: application/json\" -d '{\"message\":\"Hello\"}'" 
   }
-},
+}
         { 
           name: "Contextual NLP", 
           icon: MessageCircle, 
