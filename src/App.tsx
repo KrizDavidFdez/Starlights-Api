@@ -58,7 +58,7 @@ interface Theme {
 const Navbar = ({ activePage, onNavigate }: { activePage: PageId, onNavigate: (page: PageId) => void }) => {
   const menuItems = [
     { id: "home" as const, text: "Home", icon: Home },
-    { id: "apis" as const, text: "Terminal APIs", icon: Activity },
+    { id: "apis" as const, text: "APIs", icon: Activity },
   ];
 
   return (
