@@ -494,7 +494,7 @@ const APIsView = () => {
     {
       title: "Downloaders",
       icon: Download,
-      desc: "Powerful video and audio downloading capabilities from popular social platforms.",
+      desc: "The Downloaders section is based on data extraction, whether on youtube, deezer, spotify, instagram, facebook, etc.",
       bgImage: "https://i.postimg.cc/qvy2wmxY/(3).jpg",
       items: [
         { 
@@ -533,9 +533,9 @@ const APIsView = () => {
       ]
     },
     {
-      title: "Search APIs",
+      title: "Searchs",
       icon: Search,
-      desc: "Deep index scanning and knowledge extraction from global repositories.",
+      desc: "The Search section is based on extracting results by search either on google, spotify, youtube, deezer, facebook, etc. ",
       bgImage: "https://i.postimg.cc/qvy2wmxY/(3).jpg",
       items: [
         { 
@@ -563,9 +563,9 @@ const APIsView = () => {
       ]
     },
     {
-      title: "AI APIs",
+      title: "AI",
       icon: Bot,
-      desc: "Neural network access points for vision, language, and generation.",
+      desc: "The Ai section is based on making requests to artificial intelligences either in Gemini, Perplexity, Blackbox, Claude, Chatgpt, etc.",
       bgImage: "https://i.postimg.cc/qvy2wmxY/(3).jpg",
       items: [
         { 
@@ -593,9 +593,9 @@ const APIsView = () => {
       ]
     },
     {
-      title: "Tools APIs",
+      title: "Tools",
       icon: Wrench,
-      desc: "Utility processors for data transformation, optimization and links.",
+      desc: "The Tools section is based on tools such as ToQR, generators, converters, and other utilities created to facilitate development.",
       bgImage: "https://i.postimg.cc/qvy2wmxY/(3).jpg",
       items: [
         { 
