@@ -587,7 +587,7 @@ const APIsView = () => {
   "auth": "SERVER",
   "terminal": { 
     "file": "GPT-4o",
-    "cmd": "curl -X POST \"${domainApi}/api/ai/gpt-4o\" -H \"Content-Type: application/json\" -d '{\"message\":\"Hello\"}'"
+    "cmd": "curl -X POST \"" + domainApi + "/api/ai/gpt-4o\" -H \"Content-Type: application/json\" -d '{\"message\":\"Hello\"}'"
   }
 },
         { 
