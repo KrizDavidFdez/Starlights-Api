@@ -589,7 +589,7 @@ const APIsView = () => {
     "file": "GPT-4o",
     "cmd": "curl -X POST ${domainApi}/api/ai/gpt-4o -H \"Content-Type: application/json\" -d '{\"message\":\"Hello\"}'" 
   }
-}
+},
         { 
           name: "Contextual NLP", 
           icon: MessageCircle, 
