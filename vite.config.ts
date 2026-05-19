@@ -20,16 +20,19 @@ export default defineConfig(({ mode }) => {
     },
 
     server: {
-      // Permitir dominios de Koyeb
+      // Permitir dominios de Koyeb y Vercel
       allowedHosts: [
         '.koyeb.app',
+        '.vercel.app',
       ],
 
       // HMR
       hmr: process.env.DISABLE_HMR !== 'true',
 
       // Watch
-      watch: process.env.DISABLE_HMR === 'true' ? null : {},
+      watch: process.env.DISABLE_HMR === 'true'
+        ? null
+        : {},
     },
   };
 });
