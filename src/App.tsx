@@ -494,7 +494,7 @@ const APIsView = () => {
     {
       title: "Downloaders",
       icon: Download,
-      desc: "The Downloaders section is based on data extraction, whether on youtube, deezer, spotify, instagram, facebook, etc.",
+      desc: "data extraction, whether on youtube, deezer, spotify, instagram, facebook, etc.",
       bgImage: "https://i.postimg.cc/qvy2wmxY/(3).jpg",
       items: [
         { 
@@ -535,7 +535,7 @@ const APIsView = () => {
     {
       title: "Searchs",
       icon: Search,
-      desc: "The Search section is based on extracting results by search either on google, spotify, youtube, deezer, facebook, etc. ",
+      desc: "extracting results by search either on google, spotify, youtube, deezer, facebook, etc. ",
       bgImage: "https://i.postimg.cc/qvy2wmxY/(3).jpg",
       items: [
         { 
@@ -565,7 +565,7 @@ const APIsView = () => {
     {
       title: "AI",
       icon: Bot,
-      desc: "The Ai section is based on making requests to artificial intelligences either in Gemini, Perplexity, Blackbox, Claude, Chatgpt, etc.",
+      desc: "making requests to artificial intelligences either in Gemini, Perplexity, Blackbox, Claude, Chatgpt, etc.",
       bgImage: "https://i.postimg.cc/qvy2wmxY/(3).jpg",
       items: [
         { 
@@ -595,7 +595,7 @@ const APIsView = () => {
     {
       title: "Tools",
       icon: Wrench,
-      desc: "The Tools section is based on tools such as ToQR, generators, converters, and other utilities created to facilitate development.",
+      desc: "tools such as ToQR, generators, converters, and other utilities created to facilitate development.",
       bgImage: "https://i.postimg.cc/qvy2wmxY/(3).jpg",
       items: [
         { 
@@ -699,7 +699,7 @@ const APIsView = () => {
               </div>
               <div className="max-w-xl">
                 <p className="text-base font-bold text-black/60 leading-relaxed border-l-4 border-black/5 pl-4">
-                  <TypingEffect text={`La sección ${activeSection.title} se basa en ${activeSection.desc.toLowerCase()}`} />
+                  <TypingEffect text={`The ${activeSection.title} section is based on ${activeSection.desc.toLowerCase()}`} />
                 </p>
               </div>
             </header>
