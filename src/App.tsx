@@ -581,7 +581,7 @@ const APIsView = () => {
         },
         { 
   "name": "GPT-4o", 
-  "icon": "Sparkles", 
+  "icon": Sparkles, 
   "desc": "Model used in this api is Openai version Gpt-4o",
   "method": "POST",
   "auth": "SERVER",
