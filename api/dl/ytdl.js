@@ -120,9 +120,8 @@ class ytConvert {
           return {
             success: true,
             title: statson.title || jsson.title || null,
-            duration: statson.duration || jsson.duration || null,
-            durationFormatted: this._formatDuration(statson.duration || jsson.duration),
-            downloadUrl: statson.downloadUrl
+            timestamp: this._formatDuration(statson.duration || jsson.duration),
+            dl_url: statson.downloadUrl
           }
         }
       }
