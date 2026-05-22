@@ -497,17 +497,17 @@ const APIsView = () => {
       desc: "data extraction, whether on youtube, deezer, spotify, instagram, facebook, etc.",
       bgImage: "https://i.postimg.cc/qvy2wmxY/(3).jpg",
       items: [
-        { 
-          name: "YouTube Downloader", 
-          icon: Youtube, 
-          desc: "Download MP4 and MP3 instantly with high quality preservation.",
-          method: "POST",
-          auth: "BEARER",
-          terminal: { 
-            file: "YOUTUBE_DOWNLOADER.SH",
-            cmd: "curl -X POST https://api.starlights.com/v1/youtube \\\n  -H 'Content-Type: application/json' \\\n  -d '{\"url\":\"https://youtube.com/watch?v=dQw4w9WgXcQ\"}'" 
-          }
-        },
+        {
+    "name": "Ytmp3",
+    "icon": Download,
+    "desc": "Extract audio and info directly from YouTube",
+    "method": "GET",
+    "auth": "NONE",
+    "terminal": {
+        "file": "Youtube",
+        "cmd": "curl -X GET \"" + domainApi + "/api/dl/ytdl?url=https://youtube.com/watch?v=Q4Js9OEODHM\""
+    }
+},
         {
     "name": "SoundCloud",
      "icon": Download,
