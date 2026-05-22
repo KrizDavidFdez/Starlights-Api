@@ -142,14 +142,14 @@ export default async function handler(req, res) {
         const scraper = new SoundCloudScraper();
         const result = await scraper.getTrackInfo(url);
         
-        if (result.error) {
-            return res.status(404).send(JSON.stringify(result, null, 2));
-        }
         
-        return res.status(200).send(JSON.stringify(result, null, 2));
+        
+        const jsonString = JSON.stringify(result, null, 2);
+        res.setHeader('Content-Type', 'application/json');
+        return res.status(200).send(jsonString);
     } catch (error) {
         return res.status(500).json({ 
-            error: '://'
+            error: "://"
         });
     }
 }
