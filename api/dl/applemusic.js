@@ -1,4 +1,5 @@
 import FormData from 'form-data';
+import crypto from 'crypto';
 
 class AppleMusicDownloader {
     constructor() {
@@ -20,7 +21,7 @@ class AppleMusicDownloader {
     }
 
     generatePHPSESSID() {
-        return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        return crypto.randomBytes(16).toString('hex');
     }
 
     setCookie(name, value, expiryHours = 24) {
@@ -81,7 +82,6 @@ class AppleMusicDownloader {
         });
         const html = await response.text();
         
-        // Extraer JSON del script sin cheerio
         const scriptMatch = html.match(/<script[^>]*id="schema\\:song"[^>]*>([\s\S]*?)<\/script>/i);
         if (!scriptMatch) {
             return {
@@ -95,7 +95,6 @@ class AppleMusicDownloader {
         const artist = audio.byArtist?.[0] || json.audio?.byArtist?.[0] || {}
         const albumArtist = audio.inAlbum?.byArtist?.[0] || {};
         
-        // Extraer título del álbum con regex
         const albumTitleMatch = html.match(/<h1[^>]*data-testid="non-editable-product-title"[^>]*>([^<]*)<\/h1>/i);
         const albumTitle = albumTitleMatch ? albumTitleMatch[1].trim() : null;
         
@@ -167,7 +166,6 @@ class AppleMusicDownloader {
         }
         const html = await this.searchSong(appleMusicUrl);
         
-        // Extraer datos del HTML sin cheerio
         const titleMatch = html.match(/<h2[^>]*>([^<]*)<\/h2>/i);
         const titleHtml = titleMatch ? titleMatch[1].trim() : null;
         
@@ -237,6 +235,7 @@ export default async function handler(req, res) {
         return res.status(200).send(jsonString);
         
     } catch (error) {
+        console.error('Error:', error);
         const errorJson = JSON.stringify({ 
             error: "://"
         }, null, 2);
