@@ -1,7 +1,7 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
 import FormData from 'form-data';
-import crypto from 'crypto';
+import CryptoJS from 'crypto-js';
 
 class AppleMusicDownloader {
     constructor() {
@@ -23,7 +23,7 @@ class AppleMusicDownloader {
     }
 
     generatePHPSESSID() {
-        return crypto.randomBytes(16).toString('hex');
+        return CryptoJS.lib.WordArray.random(16).toString();
     }
 
     setCookie(name, value, expiryHours = 24) {
