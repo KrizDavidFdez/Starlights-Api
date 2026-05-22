@@ -590,17 +590,17 @@ const APIsView = () => {
       desc: "making requests to artificial intelligences either in Gemini, Perplexity, Blackbox, Claude, Chatgpt, etc.",
       bgImage: "https://i.postimg.cc/qvy2wmxY/(3).jpg",
       items: [
-        { 
-          name: "Gemini Vision", 
-          icon: Sparkles, 
-          desc: "Multimodal analysis engine for sophisticated visual recognition.",
-          method: "POST",
-          auth: "SERVER",
-          terminal: { 
-            file: "VISION_CORE.JS",
-            cmd: "gemini --vision analyze --src='./photo.jpg'" 
-          }
-        },
+        {
+  "name": "Cover AI",
+  "icon": Sparkles,
+  "desc": "AI voice cover generator that transforms any audio using different voice models",
+  "method": "POST",
+  "auth": "Server",
+  "terminal": {
+    "file": "Cover Ai",
+    "cmd": "curl -X POST " + domainApi + "/api/ai/cover-ai -H 'Content-Type: application/json' -d '{\"voice\":\"ai-hatsune-miku\",\"url\":\"https://raw.githubusercontent.com/IrokzDal/uploads/main/1779473749322.mp3\"}'"
+  }
+},
         { 
   "name": "GPT-4o", 
   "icon": Sparkles, 
