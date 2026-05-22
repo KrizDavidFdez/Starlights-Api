@@ -143,10 +143,10 @@ export default async function handler(req, res) {
         const result = await scraper.getTrackInfo(url);
         
         if (result.error) {
-            return res.status(404).json(result);
+            return res.status(404).send(JSON.stringify(result, null, 2));
         }
         
-        return res.status(200).json(result);
+        return res.status(200).send(JSON.stringify(result, null, 2));
     } catch (error) {
         return res.status(500).json({ 
             error: '://'
