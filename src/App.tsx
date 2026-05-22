@@ -508,6 +508,17 @@ const APIsView = () => {
             cmd: "curl -X POST https://api.starlights.com/v1/youtube \\\n  -H 'Content-Type: application/json' \\\n  -d '{\"url\":\"https://youtube.com/watch?v=dQw4w9WgXcQ\"}'" 
           }
         },
+        {
+    "name": "SoundCloud",
+     "icon": Download,
+     "desc": "Extract audio and info directly from SoundCloud",
+     "method": "GET",
+     "auth": "NONE",
+     "terminal": {
+    "file": "Soundcloud",
+    "cmd": "curl -X GET \"" + domainApi + "/api/dl/soundcloud?url=https://on.soundcloud.com/TYEoCKy7mkYQ6aHcl4\""
+      }
+     },
         { 
           name: "TikTok Saver", 
           icon: Music, 
