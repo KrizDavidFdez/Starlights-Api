@@ -210,7 +210,7 @@ export default async function handler(req, res) {
     
     try {
         const downloader = new AppleMusicDownloader();
-        const qualityValue = quality === '320
+        const qualityValue = quality === '320' ? '320' : '256';
         const result = await downloader.getSong(url, qualityValue);
         const jsonString = JSON.stringify(result, null, 2);
         res.setHeader('Content-Type', 'application/json');
