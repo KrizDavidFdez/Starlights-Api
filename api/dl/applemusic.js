@@ -1,7 +1,4 @@
-import axios from 'axios';
-import cheerio from 'cheerio';
 import FormData from 'form-data';
-import CryptoJS from 'crypto-js';
 
 class AppleMusicDownloader {
     constructor() {
@@ -23,7 +20,7 @@ class AppleMusicDownloader {
     }
 
     generatePHPSESSID() {
-        return CryptoJS.lib.WordArray.random(16).toString();
+        return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     }
 
     setCookie(name, value, expiryHours = 24) {
@@ -61,39 +58,47 @@ class AppleMusicDownloader {
     }
 
     async getInitialPage() {
-        const res = await axios.get(this.baseUrl, {
+        const res = await fetch(this.baseUrl, {
             headers: { ...this.headers, Cookie: this.getCookieString() }
         });
-        const setCookies = res.headers['set-cookie'];
+        const setCookies = res.headers.get('set-cookie');
         if (setCookies) {
-            setCookies.forEach(c => {
+            const cookies = Array.isArray(setCookies) ? setCookies : [setCookies];
+            cookies.forEach(c => {
                 const m = c.match(/([^=]+)=([^;]+)/);
                 if (m) this.setCookie(m[1], m[2]);
             });
         }
-        return res.data;
+        return res.text();
     }
 
     async getInfo(url) {
-        const { data: html } = await axios.get(url, {
+        const response = await fetch(url, {
             headers: {
                 'User-Agent': this.currentUserAgent,
                 'Accept-Language': 'en-US,en;q=0.9'
             }
         });
-        const $ = cheerio.load(html);
-        const jsn = $('script#schema\\:song').html();
-        if (!jsn) {
+        const html = await response.text();
+        
+        // Extraer JSON del script sin cheerio
+        const scriptMatch = html.match(/<script[^>]*id="schema\\:song"[^>]*>([\s\S]*?)<\/script>/i);
+        if (!scriptMatch) {
             return {
                 titulo: null, artista: null, album: null,
                 imagen: null, fecha: null, duracion: null, audio_url: null
             };
         }
-        const json = JSON.parse(jsn);
+        
+        const json = JSON.parse(scriptMatch[1]);
         const audio = json.audio?.audio || json.audio || {};
         const artist = audio.byArtist?.[0] || json.audio?.byArtist?.[0] || {}
         const albumArtist = audio.inAlbum?.byArtist?.[0] || {};
-        const albumTitle = $('h1[data-testid="non-editable-product-title"]').text().trim();
+        
+        // Extraer título del álbum con regex
+        const albumTitleMatch = html.match(/<h1[^>]*data-testid="non-editable-product-title"[^>]*>([^<]*)<\/h1>/i);
+        const albumTitle = albumTitleMatch ? albumTitleMatch[1].trim() : null;
+        
         return {
             titulo: json.name || audio.name || null,
             artista: artist.name || albumArtist.name || null,
@@ -110,14 +115,16 @@ class AppleMusicDownloader {
         const match = url.match(/\/song\/([^\/]+)\/(\d+)/);
         const data = [decodeURIComponent(match[1].replace(/-/g, ' ')), '', '', '', null, url];
         form.append('data', JSON.stringify(data));
-        const res = await axios.post(`${this.baseUrl}/song.php`, form, {
+        
+        const res = await fetch(`${this.baseUrl}/song.php`, {
+            method: 'POST',
             headers: {
                 ...this.headers,
-                Cookie: this.getCookieString(),
-                ...form.getHeaders()
-            }
+                Cookie: this.getCookieString()
+            },
+            body: form
         });
-        return res.data;
+        return res.text();
     }
 
     async prep(track, artist, url, quality) {
@@ -127,25 +134,26 @@ class AppleMusicDownloader {
         form.append('url', url);
         form.append('token', 'none');
         form.append('quality', quality);
-        const res = await axios.post(`${this.baseUrl}/api/composer/swd.php`, form, {
+        
+        const res = await fetch(`${this.baseUrl}/api/composer/swd.php`, {
+            method: 'POST',
             headers: {
                 ...this.headers,
                 Cookie: this.getCookieString(),
-                'X-Requested-With': 'XMLHttpRequest',
-                ...form.getHeaders()
-            }
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: form
         });
-        return res.data;
+        return res.json();
     }
 
     async ffmpeg(url) {
-        const res = await axios.get(`${this.baseUrl}/api/composer/ffmpeg/redirect.php`, {
-            params: { url },
+        const res = await fetch(`${this.baseUrl}/api/composer/ffmpeg/redirect.php?url=${encodeURIComponent(url)}`, {
+            method: 'GET',
             headers: { ...this.headers, Cookie: this.getCookieString() },
-            maxRedirects: 0,
-            validateStatus: s => s === 302 || s === 200
+            redirect: 'manual'
         });
-        return res.headers?.location || url;
+        return res.headers.get('location') || url;
     }
 
     async getSong(appleMusicUrl, quality = '256') {
@@ -158,17 +166,29 @@ class AppleMusicDownloader {
             info = {};
         }
         const html = await this.searchSong(appleMusicUrl);
-        const $ = cheerio.load(html);
-        const titleHtml = $('h2').first().text().trim();
-        const artistHtml = $('.media-info p').first().text().split('|')[0].trim();
-        const albumHtml = $('td:contains("Album:")').next().text().trim();
-        const durationHtml = $('td:contains("Duration:")').next().text().trim();
-        const thumbnailHtml = $('.image.is-square img').attr('src');
+        
+        // Extraer datos del HTML sin cheerio
+        const titleMatch = html.match(/<h2[^>]*>([^<]*)<\/h2>/i);
+        const titleHtml = titleMatch ? titleMatch[1].trim() : null;
+        
+        const artistMatch = html.match(/<div[^>]*class="media-info"[^>]*>[\s\S]*?<p[^>]*>([^<|]*)/i);
+        const artistHtml = artistMatch ? artistMatch[1].trim() : null;
+        
+        const albumMatch = html.match(/<td[^>]*>Album:<\/td>\s*<td[^>]*>([^<]*)<\/td>/i);
+        const albumHtml = albumMatch ? albumMatch[1].trim() : null;
+        
+        const durationMatch = html.match(/<td[^>]*>Duration:<\/td>\s*<td[^>]*>([^<]*)<\/td>/i);
+        const durationHtml = durationMatch ? durationMatch[1].trim() : null;
+        
+        const thumbnailMatch = html.match(/<div[^>]*class="image[^"]*is-square[^"]*"[^>]*>[\s\S]*?<img[^>]*src="([^"]+)"/i);
+        const thumbnailHtml = thumbnailMatch ? thumbnailMatch[1] : null;
+        
         const title = info.titulo || titleHtml || null;
         const artist = info.artista || artistHtml || null;
         const album = info.album || albumHtml || null;
         const duration = info.duracion || durationHtml || null;
         const thumbnail = info.imagen || thumbnailHtml || null;
+        
         const dl = await this.prep(title, artist, appleMusicUrl, quality);
         let dls = null;
         if (dl?.status === 'success' && dl?.dlink) {
