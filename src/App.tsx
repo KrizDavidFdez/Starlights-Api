@@ -519,6 +519,17 @@ const APIsView = () => {
     "cmd": "curl -X GET \"" + domainApi + "/api/dl/soundcloud?url=https://on.soundcloud.com/TYEoCKy7mkYQ6aHcl4\""
       }
      },
+     {
+    "name": "Applemusic",
+     "icon": Download,
+     "desc": "Extract audio and info directly from Applemusic",
+     "method": "GET",
+     "auth": "NONE",
+     "terminal": {
+    "file": "Applemusic",
+    "cmd": "curl -X GET \"" + domainApi + "/api/dl/applemusic?url=https://music.apple.com/es/song/call-out-my-name/1363310482\""
+      }
+     },   
         { 
           name: "TikTok Saver", 
           icon: Music, 
