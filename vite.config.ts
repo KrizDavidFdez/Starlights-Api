@@ -9,10 +9,6 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react(), tailwindcss()],
 
-    define: {
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-    },
-
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
@@ -20,19 +16,15 @@ export default defineConfig(({ mode }) => {
     },
 
     server: {
-      // Permitir dominios de Koyeb y Vercel
       allowedHosts: [
         '.koyeb.app',
         '.vercel.app',
       ],
 
-      // HMR
       hmr: process.env.DISABLE_HMR !== 'true',
-
-      // Watch
       watch: process.env.DISABLE_HMR === 'true'
         ? null
         : {},
     },
   };
-});
+})
