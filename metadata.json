@@ -1,8 +1,8 @@
 {
-  "name": "Isie's Editorial Dashboard",
-  "description": "A soft, premium Korean-inspired editorial dashboard for lifestyle updates and memories.",
+  "name": "Light Apis",
+  "description": "Desing premium by darling.",
   "requestFramePermissions": [],
   "majorCapabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+    "MAJOR_CAPILITI_NODES_DARLING_SECRET"
   ]
 }
