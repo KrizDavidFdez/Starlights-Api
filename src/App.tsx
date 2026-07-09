@@ -1,5 +1,4 @@
-/**
- * @license
+/*
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -293,7 +292,7 @@ const HomeView = () => {
         if (data.latitude && data.longitude) {
            return fetch(`https://api.open-meteo.com/v1/forecast?latitude=${data.latitude}&longitude=${data.longitude}&current_weather=true&timeout=5`);
         }
-        throw new Error('Location not found');
+        throw new Error('not found');
       })
       .then(res => res.json())
       .then(data => {
@@ -529,29 +528,7 @@ const APIsView = () => {
     "file": "Applemusic",
     "cmd": "curl -X GET \"" + domainApi + "/api/dl/applemusic?url=https://music.apple.com/es/song/call-out-my-name/1363310482\""
       }
-     },   
-        { 
-          name: "TikTok Saver", 
-          icon: Music, 
-          desc: "Extract clean videos without watermarks automatically.",
-          method: "GET",
-          auth: "BEARER",
-          terminal: { 
-            file: "TIKTOK_EXTRACT.PY",
-            cmd: "curl https://api.starlights.com/v1/tiktok?v=1029 \\\n  -H 'Authorization: Bearer <API_KEY>'" 
-          }
-        },
-        { 
-          name: "Instagram Archiver", 
-          icon: Instagram, 
-          desc: "Archive profiles, stories and posts to cloud storage.",
-          method: "POST",
-          auth: "SESSION",
-          terminal: { 
-            file: "IG_ARCHIVE.JS",
-            cmd: "node archive.js --user='issie' --target='s3://bucket'" 
-          }
-        }
+     }
       ]
     },
     {
@@ -561,25 +538,14 @@ const APIsView = () => {
       bgImage: "https://i.postimg.cc/qvy2wmxY/(3).jpg",
       items: [
         { 
-          name: "Global Web Scout", 
+          name: "Facebook Searching", 
           icon: Globe, 
           desc: "Advanced search engine orchestration for real-time trend mapping.",
-          method: "GET",
-          auth: "API_KEY",
-          terminal: { 
-            file: "WEB_SCOUT.SH",
-            cmd: "curl https://api.starlights.com/v1/search?q='minimalism'" 
-          }
-        },
-        { 
-          name: "Semantic Wiki", 
-          icon: FileText, 
-          desc: "Extract structured intelligence from open knowledge databases.",
           method: "POST",
           auth: "NONE",
           terminal: { 
-            file: "WIKI_FETCH.PY",
-            cmd: "python wiki.py --query='Modernism' --format=json" 
+            file: "Facebook",
+            cmd: "curl https://starlights-api.vercel.app/api/search/facebook?q='was'" 
           }
         }
       ]
@@ -611,18 +577,7 @@ const APIsView = () => {
     "file": "GPT-4o",
     "cmd": "curl -X POST \"" + domainApi + "/api/ai/gpt-4o\" -H \"Content-Type: application/json\" -d '{\"message\":\"Hello\"}'"
   }
-},
-        { 
-          name: "Contextual NLP", 
-          icon: MessageCircle, 
-          desc: "Natural language processing with high-dimensional context awareness.",
-          method: "POST",
-          auth: "BEARER",
-          terminal: { 
-            file: "NLP_STREAM.PY",
-            cmd: "python chat.py --msg='Build a legacy'" 
-          }
-        }
+}
       ]
     },
     {
@@ -632,17 +587,6 @@ const APIsView = () => {
       bgImage: "https://i.postimg.cc/qvy2wmxY/(3).jpg",
       items: [
         { 
-          name: "Polyglot Node", 
-          icon: Languages, 
-          desc: "Universal translation bridge supporting 120+ technical dialects.",
-          method: "POST",
-          auth: "BEARER",
-          terminal: { 
-            file: "TRANSLATE.SH",
-            cmd: "curl -X POST api.v1/translate -d '{\"text\":\"Hello\"}'" 
-          }
-        },
-        { 
           name: "QR Generator", 
           icon: QrCode, 
           desc: "High-density data encoding to vectorized matrix symbols.",
@@ -650,7 +594,7 @@ const APIsView = () => {
           auth: "NONE",
           terminal: { 
             file: "QR_GEN.PY",
-            cmd: "python qr.py --url='https://issie.io' --size=512" 
+            cmd: "curl -X POST  --url='https://issie.io' --size=512" 
           }
         }
       ]
@@ -666,7 +610,6 @@ const APIsView = () => {
       animate={{ opacity: 1 }}
       className="w-full max-w-[1400px] grid grid-cols-1 lg:grid-cols-12 gap-8 min-h-[900px]"
     >
-      {/* Sidebar Navigation */}
       <div className="lg:col-span-3">
         <div className="sticky top-[160px] bg-white p-4 rounded-[32px] border border-black/5 shadow-editorial flex flex-col gap-2">
           {sections.map((section, idx) => (
@@ -689,7 +632,6 @@ const APIsView = () => {
         </div>
       </div>
 
-      {/* Main Content Area */}
       <div className="lg:col-span-9 flex flex-col gap-8">
         <AnimatePresence mode="wait">
           <motion.div
@@ -700,7 +642,6 @@ const APIsView = () => {
             transition={{ duration: 0.4 }}
             className="space-y-10"
           >
-            {/* Section Header */}
             <header className="flex flex-col gap-6 border-b border-black/5 pb-10">
               <div className="flex items-center gap-6">
                 <motion.div 
@@ -737,11 +678,10 @@ const APIsView = () => {
               </div>
             </header>
 
-            {/* Modules In Section */}
             <div className="flex flex-col gap-10">
               {activeSection.items.map((module) => (
                 <div key={module.name} className="space-y-6">
-                  {/* Module Title & Meta */}
+                  
                   <div className="space-y-4">
                     <div className="flex items-center gap-4">
                       <div className="p-2 bg-black rounded-lg text-white shadow-md">
@@ -767,7 +707,7 @@ const APIsView = () => {
                     </div>
                   </div>
 
-                  {/* Terminal Output */}
+                  {/* Terminal */}
                   <TerminalSnippet 
                     command={module.terminal.cmd}
                     output=""
@@ -841,7 +781,6 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      {/* Decorative Blur Backgrounds */}
       <div className="fixed -top-40 -left-40 w-[600px] h-[600px] bg-blue-100 rounded-full blur-[160px] opacity-20 pointer-events-none" />
       <div className="fixed -bottom-40 -right-40 w-[600px] h-[600px] bg-purple-100 rounded-full blur-[160px] opacity-20 pointer-events-none" />
 
