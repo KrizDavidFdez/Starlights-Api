@@ -16,12 +16,16 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Método no permitido." });
   }
 
-  const forwardedHost = req.headers["x-forwarded-host"];
-  const requestHost = Array.isArray(forwardedHost) ? forwardedHost[0] : forwardedHost || req.headers.host;
   const origin = req.headers.origin;
+  const requestHosts = [req.headers.host, req.headers["x-forwarded-host"]]
+    .flatMap((value) => (Array.isArray(value) ? value : [value]))
+    .flatMap((value) => (typeof value === "string" ? value.split(",") : []))
+    .map((value) => value.trim().toLowerCase())
+    .filter(Boolean);
 
   try {
-    if (!origin || new URL(origin).host !== requestHost) {
+    const parsedOrigin = new URL(origin);
+    if (!['http:', 'https:'].includes(parsedOrigin.protocol) || !requestHosts.includes(parsedOrigin.host.toLowerCase())) {
       return res.status(403).json({ error: "Origen de solicitud no válido." });
     }
   } catch {
