@@ -44,7 +44,6 @@ export default async function handler(req, res) {
       {
         mode: "subscription",
         ui_mode: "hosted_page",
-        payment_method_types: ["card", "paypal"],
         line_items: [
           {
             price_data: {

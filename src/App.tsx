@@ -553,7 +553,7 @@ const ShopView = () => {
           </article>
         ))}
       </div>
-      <p className="mt-8 text-center text-xs font-medium text-black/45">Pago seguro con tarjeta o PayPal mediante Stripe. PayPal requiere disponibilidad en tu región y habilitación en Stripe.</p>
+      <p className="mt-8 text-center text-xs font-medium text-black/45">Pago seguro gestionado por Stripe: tarjeta, PayPal y otros métodos disponibles según tu región y la configuración de Stripe.</p>
       {checkoutError && <p className="mt-4 text-center text-sm font-semibold text-red-700" role="alert">{checkoutError}</p>}
     </section>
   );
