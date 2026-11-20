@@ -547,13 +547,13 @@ const ShopView = () => {
               ))}
             </ul>
             <button type="button" onClick={() => startCheckout(plan.id)} disabled={pendingPlan !== null} className={`mt-8 flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-5 text-sm font-black transition-transform hover:scale-[1.02] disabled:cursor-wait disabled:opacity-60 ${plan.featured ? "bg-[#d7ff64] text-black" : "bg-black text-white"}`}>
-              {pendingPlan === plan.id ? "Conectando con Stripe…" : "Comprar plan"}
+              {pendingPlan === plan.id ? "Abriendo Stripe…" : "Ver formas de pago"}
               {pendingPlan !== plan.id && <ArrowRight size={16} aria-hidden="true" />}
             </button>
           </article>
         ))}
       </div>
-      <p className="mt-8 text-center text-xs font-medium text-black/45">Pago seguro gestionado por Stripe: tarjeta, PayPal y otros métodos disponibles según tu región y la configuración de Stripe.</p>
+      <p className="mt-8 text-center text-xs font-medium text-black/45">Pago seguro gestionado por Stripe. En la siguiente pantalla podrás elegir entre los métodos habilitados para tu cuenta y región.</p>
       {checkoutError && <p className="mt-4 text-center text-sm font-semibold text-red-700" role="alert">{checkoutError}</p>}
     </section>
   );
