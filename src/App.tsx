@@ -591,12 +591,17 @@ const ShopView = () => {
     <section className="relative isolate w-full max-w-[1180px] px-1" aria-labelledby="shop-title">
       <div aria-hidden="true" className="liquid-orb pointer-events-none absolute inset-x-8 top-28 -z-10 h-72 rounded-full bg-gradient-to-r from-sky-200/60 via-violet-200/55 to-emerald-100/60 blur-3xl" />
       <header className="mx-auto mb-10 max-w-3xl text-center md:mb-14">
-        <div className="inline-flex items-center gap-2 rounded-full border border-white/80 bg-white/55 px-4 py-2 shadow-[0_8px_32px_rgba(15,23,42,0.08)] backdrop-blur-xl">
-          <Youtube size={15} className="text-red-600" aria-hidden="true" />
-          <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-600">API de YouTube · acceso mensual</span>
+        <div className="mx-auto inline-flex max-w-full items-center gap-3 rounded-full border border-white/80 bg-white/65 p-1.5 pr-4 shadow-[0_12px_40px_rgba(15,23,42,0.10)] backdrop-blur-2xl">
+          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-slate-950 text-[#d7ff64] shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_4px_14px_rgba(15,23,42,0.24)]">
+            <Play size={15} fill="currentColor" strokeWidth={1.8} aria-hidden="true" />
+          </span>
+          <span className="font-sans text-[9px] font-bold uppercase tracking-[0.16em] text-slate-800 sm:text-[10px]">YouTube API</span>
+          <span aria-hidden="true" className="h-1 w-1 shrink-0 rounded-full bg-lime-500 shadow-[0_0_10px_rgba(132,204,22,0.65)]" />
+          <span className="font-sans text-[9px] font-medium tracking-[0.08em] text-slate-500 sm:text-[10px]">Audio + video · mensual</span>
         </div>
-        <h1 id="shop-title" className="mt-6 font-sans text-4xl font-bold tracking-[-0.055em] text-slate-950 md:text-6xl">Elige tu plan</h1>
-        <p className="mx-auto mt-4 max-w-xl font-sans text-base font-normal leading-7 text-slate-600 md:text-lg">Potencia de audio y video con un plan que se adapta a tu ritmo. Cancela cuando quieras.</p>
+        <h1 id="shop-title" className="mt-6 font-sans text-4xl font-bold tracking-[-0.06em] text-slate-950 md:text-6xl">Elige tu <span className="bg-gradient-to-r from-slate-950 via-slate-800 to-lime-700 bg-clip-text text-transparent">plan</span></h1>
+        <span aria-hidden="true" className="mx-auto mt-4 block h-1 w-12 rounded-full bg-gradient-to-r from-lime-300 to-emerald-500 shadow-[0_0_18px_rgba(163,230,53,0.45)]" />
+        <p className="mx-auto mt-4 max-w-xl font-sans text-base font-normal leading-7 text-slate-600 md:text-lg">Más velocidad y capacidad para tus proyectos de audio y video. Elige lo que necesitas hoy y escala cuando quieras.</p>
       </header>
 
       <div className="grid grid-cols-1 items-stretch gap-5 md:grid-cols-3 md:gap-4 lg:gap-6">
