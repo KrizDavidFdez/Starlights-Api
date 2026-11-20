@@ -5,6 +5,7 @@
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { 
   Heart, 
+  Clapperboard,
   Grid, 
   Sun, 
   Eye,
@@ -590,18 +591,50 @@ const ShopView = () => {
   return (
     <section className="relative isolate w-full max-w-[1180px] px-1" aria-labelledby="shop-title">
       <div aria-hidden="true" className="liquid-orb pointer-events-none absolute inset-x-8 top-28 -z-10 h-72 rounded-full bg-gradient-to-r from-sky-200/60 via-violet-200/55 to-emerald-100/60 blur-3xl" />
-      <header className="mx-auto mb-10 max-w-3xl text-center md:mb-14">
-        <div className="mx-auto inline-flex max-w-full items-center gap-3 rounded-full border border-white/80 bg-white/65 p-1.5 pr-4 shadow-[0_12px_40px_rgba(15,23,42,0.10)] backdrop-blur-2xl">
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-slate-950 text-[#d7ff64] shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_4px_14px_rgba(15,23,42,0.24)]">
-            <Play size={15} fill="currentColor" strokeWidth={1.8} aria-hidden="true" />
-          </span>
-          <span className="font-sans text-[9px] font-bold uppercase tracking-[0.16em] text-slate-800 sm:text-[10px]">YouTube API</span>
-          <span aria-hidden="true" className="h-1 w-1 shrink-0 rounded-full bg-lime-500 shadow-[0_0_10px_rgba(132,204,22,0.65)]" />
-          <span className="font-sans text-[9px] font-medium tracking-[0.08em] text-slate-500 sm:text-[10px]">Audio + video · mensual</span>
+      <header className="relative isolate mb-8 grid overflow-hidden rounded-[36px] border border-white/75 bg-white/45 p-6 shadow-[0_30px_100px_rgba(15,23,42,0.12)] backdrop-blur-2xl md:mb-12 md:grid-cols-[minmax(0,1fr)_260px] md:items-center md:gap-8 md:p-10">
+        <div aria-hidden="true" className="liquid-orb pointer-events-none absolute -right-16 -top-24 -z-10 h-72 w-72 rounded-full bg-gradient-to-br from-lime-200/55 via-cyan-100/45 to-violet-200/45 blur-3xl" />
+        <div aria-hidden="true" className="liquid-orb pointer-events-none absolute -bottom-24 -left-20 -z-10 h-56 w-56 rounded-full bg-gradient-to-br from-sky-200/45 to-emerald-100/45 blur-3xl" style={{ animationDelay: "-8s" }} />
+
+        <div className="relative z-10">
+          <div className="inline-flex items-center gap-3 rounded-full border border-white/80 bg-white/70 py-1.5 pl-1.5 pr-4 shadow-[0_12px_36px_rgba(15,23,42,0.10)] backdrop-blur-2xl">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gradient-to-br from-slate-950 to-slate-700 text-[#d7ff64] shadow-[inset_0_1px_0_rgba(255,255,255,0.24),0_6px_16px_rgba(15,23,42,0.22)]">
+              <Clapperboard size={16} strokeWidth={1.8} aria-hidden="true" />
+            </span>
+            <span className="flex min-w-0 flex-col gap-0.5">
+              <span className="whitespace-nowrap font-sans text-[10px] font-bold uppercase tracking-[0.17em] text-slate-800">YouTube API</span>
+              <span className="whitespace-nowrap font-sans text-[8px] font-medium uppercase tracking-[0.1em] text-slate-500">Audio · video · acceso mensual</span>
+            </span>
+          </div>
+
+          <h1 id="shop-title" className="mt-6 max-w-2xl font-sans text-[42px] font-bold leading-[0.98] tracking-[-0.065em] text-slate-950 sm:text-5xl md:text-[64px]">
+            Audio y video,
+            <span className="mt-1 block bg-gradient-to-r from-slate-950 via-slate-700 to-emerald-700 bg-clip-text text-transparent">a tu ritmo.</span>
+          </h1>
+          <p className="mt-5 max-w-xl font-sans text-[15px] font-normal leading-7 text-slate-600 md:text-base">Elige la velocidad y capacidad que mejor encajan con tu flujo de trabajo. Escala cuando necesites más.</p>
+
+          <div className="mt-6 flex flex-wrap gap-2">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/80 bg-white/60 px-3.5 py-2 font-sans text-[11px] font-semibold text-slate-700 shadow-[0_8px_24px_rgba(15,23,42,0.06)] backdrop-blur-xl">
+              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-lime-500" />100–500 Mbps
+            </span>
+            <span className="rounded-full border border-white/80 bg-white/60 px-3.5 py-2 font-sans text-[11px] font-semibold text-slate-700 shadow-[0_8px_24px_rgba(15,23,42,0.06)] backdrop-blur-xl">Hasta 2 GB por archivo</span>
+            <span className="rounded-full border border-white/80 bg-white/60 px-3.5 py-2 font-sans text-[11px] font-semibold text-slate-700 shadow-[0_8px_24px_rgba(15,23,42,0.06)] backdrop-blur-xl">Mensual · cancela cuando quieras</span>
+          </div>
         </div>
-        <h1 id="shop-title" className="mt-6 font-sans text-4xl font-bold tracking-[-0.06em] text-slate-950 md:text-6xl">Elige tu <span className="bg-gradient-to-r from-slate-950 via-slate-800 to-lime-700 bg-clip-text text-transparent">plan</span></h1>
-        <span aria-hidden="true" className="mx-auto mt-4 block h-1 w-12 rounded-full bg-gradient-to-r from-lime-300 to-emerald-500 shadow-[0_0_18px_rgba(163,230,53,0.45)]" />
-        <p className="mx-auto mt-4 max-w-xl font-sans text-base font-normal leading-7 text-slate-600 md:text-lg">Más velocidad y capacidad para tus proyectos de audio y video. Elige lo que necesitas hoy y escala cuando quieras.</p>
+
+        <div aria-hidden="true" className="relative mx-auto mt-3 hidden h-[190px] w-full max-w-[250px] items-center justify-center md:mt-0 md:flex md:h-[230px]">
+          <div className="liquid-orb absolute left-1/2 top-1/2 h-44 w-44 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-lime-200/70 via-cyan-200/55 to-violet-200/65 blur-2xl" style={{ animationDelay: "-5s" }} />
+          <div className="relative grid h-36 w-36 rotate-[-8deg] place-items-center rounded-[42px] border border-white/80 bg-white/45 shadow-[inset_0_1px_0_rgba(255,255,255,0.9),0_24px_70px_rgba(15,23,42,0.14)] backdrop-blur-2xl">
+            <div className="grid h-20 w-20 place-items-center rounded-[28px] bg-gradient-to-br from-slate-950 to-slate-700 text-[#d7ff64] shadow-[inset_0_1px_0_rgba(255,255,255,0.22),0_14px_32px_rgba(15,23,42,0.25)]">
+              <Play size={34} fill="currentColor" strokeWidth={1.5} />
+            </div>
+          </div>
+          <div className="absolute right-0 top-4 inline-flex rotate-[4deg] items-center gap-2 rounded-2xl border border-white/80 bg-white/75 px-3.5 py-2.5 font-sans text-[10px] font-bold uppercase tracking-[0.16em] text-slate-700 shadow-[0_12px_32px_rgba(15,23,42,0.12)] backdrop-blur-2xl">
+            <Play size={13} className="text-emerald-700" fill="currentColor" aria-hidden="true" />Video
+          </div>
+          <div className="absolute bottom-4 left-0 inline-flex rotate-[-4deg] items-center gap-2 rounded-2xl border border-white/80 bg-white/75 px-3.5 py-2.5 font-sans text-[10px] font-bold uppercase tracking-[0.16em] text-slate-700 shadow-[0_12px_32px_rgba(15,23,42,0.12)] backdrop-blur-2xl">
+            <Headphones size={14} className="text-violet-700" aria-hidden="true" />Audio
+          </div>
+        </div>
       </header>
 
       <div className="grid grid-cols-1 items-stretch gap-5 md:grid-cols-3 md:gap-4 lg:gap-6">
