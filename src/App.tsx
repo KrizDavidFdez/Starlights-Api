@@ -15,6 +15,7 @@ import {
   ChevronRight,
   Home,
   Activity,
+  ShoppingBag,
   Zap,
   Download,
   Search,
@@ -57,7 +58,7 @@ const domainApi = "https://starlights-api.vercel.app"
 const Navbar = ({ activePage, onNavigate }: { activePage: PageId, onNavigate: (page: PageId) => void }) => {
   const menuItems = [
     { id: "home" as const, text: "Home", icon: Home },
-    { id: "apis" as const, text: "APIs", icon: Activity },
+    { id: "apis" as const, text: "Shop", icon: ShoppingBag },
   ];
 
   return (
@@ -485,7 +486,82 @@ const HomeView = () => {
   );
 };
 
-const APIsView = () => {
+const SHOP_PLANS = [
+  { id: "starter", name: "Starter", speed: 100, maxSize: "300 MB", resolution: "Audio + video hasta 480p", price: 4, featured: false },
+  { id: "pro", name: "Pro", speed: 300, maxSize: "1 GB", resolution: "Audio + video", price: 6, featured: true },
+  { id: "ultra", name: "Ultra", speed: 500, maxSize: "2 GB", resolution: "Audio + video", price: 8, featured: false },
+];
+
+const ShopView = () => {
+  const [pendingPlan, setPendingPlan] = useState<string | null>(null);
+  const [checkoutError, setCheckoutError] = useState("");
+
+  const startCheckout = async (planId: string) => {
+    setPendingPlan(planId);
+    setCheckoutError("");
+    try {
+      const response = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ planId, requestId: crypto.randomUUID() }),
+      });
+      const data = await response.json();
+      if (!response.ok || !data.url) throw new Error(data.error || "No se pudo iniciar el pago.");
+      window.location.assign(data.url);
+    } catch (error) {
+      setCheckoutError(error instanceof Error ? error.message : "No se pudo iniciar el pago.");
+      setPendingPlan(null);
+    }
+  };
+
+  return (
+    <section className="w-full max-w-[1180px]" aria-labelledby="shop-title">
+      <div className="mx-auto max-w-3xl text-center mb-12 md:mb-16">
+        <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-black/60">
+          <Youtube size={16} className="text-red-600" aria-hidden="true" /> API de YouTube
+        </div>
+        <h1 id="shop-title" className="mt-6 text-4xl md:text-6xl font-black tracking-[-0.06em]">Elige tu plan</h1>
+        <p className="mt-4 text-base md:text-lg leading-relaxed text-black/55 font-medium">Acceso mensual a la API de audio y video de YouTube. Cancela cuando quieras.</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch">
+        {SHOP_PLANS.map((plan) => (
+          <article key={plan.id} className={`relative flex flex-col rounded-[28px] border p-7 md:p-8 shadow-editorial ${plan.featured ? "border-black bg-black text-white md:-translate-y-3" : "border-black/10 bg-white"}`}>
+            {plan.featured && <span className="absolute -top-3 right-6 rounded-full bg-[#d7ff64] px-3 py-1 text-[10px] font-black uppercase tracking-wider text-black">Más popular</span>}
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-black tracking-tight">{plan.name}</h2>
+              <Zap size={19} aria-hidden="true" className={plan.featured ? "text-[#d7ff64]" : "text-black/50"} />
+            </div>
+            <p className={`mt-2 text-sm font-medium ${plan.featured ? "text-white/60" : "text-black/50"}`}>API de YouTube · mensual</p>
+            <p className="mt-8 flex items-end gap-2"><span className="text-5xl font-black tracking-[-0.07em]">${plan.price}</span><span className={`pb-1 text-sm font-semibold ${plan.featured ? "text-white/55" : "text-black/45"}`}>USD / mes</span></p>
+            <div className={`my-7 h-px ${plan.featured ? "bg-white/15" : "bg-black/10"}`} />
+            <ul className="flex flex-col gap-4 text-sm font-semibold">
+              {[
+                `${plan.speed} Mbps de velocidad`,
+                `Tamaño máximo: ${plan.maxSize}`,
+                plan.resolution,
+                "Procesamiento de audio y video",
+                "Suscripción mensual",
+              ].map((feature) => (
+                <li key={feature} className="flex items-start gap-3"><CheckCircle2 size={17} aria-hidden="true" className={`mt-0.5 shrink-0 ${plan.featured ? "text-[#d7ff64]" : "text-black/50"}`} /><span>{feature}</span></li>
+              ))}
+            </ul>
+            <button type="button" onClick={() => startCheckout(plan.id)} disabled={pendingPlan !== null} className={`mt-8 flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-5 text-sm font-black transition-transform hover:scale-[1.02] disabled:cursor-wait disabled:opacity-60 ${plan.featured ? "bg-[#d7ff64] text-black" : "bg-black text-white"}`}>
+              {pendingPlan === plan.id ? "Conectando con Stripe…" : "Comprar plan"}
+              {pendingPlan !== plan.id && <ArrowRight size={16} aria-hidden="true" />}
+            </button>
+          </article>
+        ))}
+      </div>
+      <p className="mt-8 text-center text-xs font-medium text-black/45">Pago seguro mediante Stripe. La suscripción se cobra mensualmente.</p>
+      {checkoutError && <p className="mt-4 text-center text-sm font-semibold text-red-700" role="alert">{checkoutError}</p>}
+    </section>
+  );
+};
+
+const APIsView = () => <ShopView />;
+
+const LegacyApisView = () => {
   const [activeSectionIdx, setActiveSectionIdx] = useState(0);
   const [activeModuleIdx, setActiveModuleIdx] = useState(0);
 
