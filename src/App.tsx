@@ -520,9 +520,9 @@ const ShopPlanCard = ({
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: shouldReduceMotion ? 0 : 0.45, delay: shouldReduceMotion ? 0 : index * 0.12, ease: "easeOut" }}
       whileHover={shouldReduceMotion ? undefined : { y: -6 }}
-      className={`group relative isolate flex min-h-full flex-col overflow-hidden rounded-[30px] border border-white/30 bg-gradient-to-br from-slate-800/80 via-slate-950/65 to-slate-900/75 p-6 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_28px_80px_rgba(15,23,42,0.28)] backdrop-blur-2xl md:p-7 ${plan.featured ? "ring-1 ring-lime-200/40" : ""}`}
+      className={`liquid-glass-card group relative isolate flex min-h-full flex-col overflow-hidden rounded-[30px] border border-white/30 bg-gradient-to-br from-slate-800/80 via-slate-950/65 to-slate-900/75 p-6 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_28px_80px_rgba(15,23,42,0.28)] backdrop-blur-2xl md:p-7 ${plan.featured ? "ring-1 ring-lime-200/40" : ""}`} style={{ animationDelay: `${index * -2.5}s` }}
     >
-      <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-12 -z-10 h-40 w-40 rounded-full bg-lime-300/15 blur-3xl" />
+      <div aria-hidden="true" className="liquid-orb pointer-events-none absolute -right-10 -top-12 -z-10 h-40 w-40 rounded-full bg-lime-300/15 blur-3xl" style={{ animationDelay: `${index * -3}s` }} />
       <div className="flex items-start justify-between gap-3">
         <div className="grid h-12 w-12 place-items-center rounded-2xl border border-white/25 bg-white/10 text-[#d7ff64] shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_8px_24px_rgba(0,0,0,0.2)] backdrop-blur-xl">
           <PlanIcon size={22} strokeWidth={1.8} aria-hidden="true" />
@@ -589,7 +589,7 @@ const ShopView = () => {
 
   return (
     <section className="relative isolate w-full max-w-[1180px] px-1" aria-labelledby="shop-title">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-8 top-28 -z-10 h-72 rounded-full bg-gradient-to-r from-sky-200/60 via-violet-200/55 to-emerald-100/60 blur-3xl" />
+      <div aria-hidden="true" className="liquid-orb pointer-events-none absolute inset-x-8 top-28 -z-10 h-72 rounded-full bg-gradient-to-r from-sky-200/60 via-violet-200/55 to-emerald-100/60 blur-3xl" />
       <header className="mx-auto mb-10 max-w-3xl text-center md:mb-14">
         <div className="inline-flex items-center gap-2 rounded-full border border-white/80 bg-white/55 px-4 py-2 shadow-[0_8px_32px_rgba(15,23,42,0.08)] backdrop-blur-xl">
           <Youtube size={15} className="text-red-600" aria-hidden="true" />

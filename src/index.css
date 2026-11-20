@@ -51,4 +51,42 @@
   .vintage-filter {
     filter: sepia(0.1) contrast(1.02) brightness(1.02);
   }
+
+  @keyframes liquid-orb-drift {
+    0%,
+    100% {
+      transform: translate3d(-3%, -2%, 0) scale(0.98);
+    }
+    50% {
+      transform: translate3d(4%, 4%, 0) scale(1.08);
+    }
+  }
+
+  @keyframes liquid-surface-drift {
+    0%,
+    100% {
+      background-position: 0% 40%;
+    }
+    50% {
+      background-position: 100% 60%;
+    }
+  }
+
+  .liquid-orb {
+    animation: liquid-orb-drift 18s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .liquid-glass-card {
+    background-size: 200% 200%;
+    animation: liquid-surface-drift 22s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .liquid-orb,
+    .liquid-glass-card {
+      animation: none;
+      will-change: auto;
+    }
+  }
 }
