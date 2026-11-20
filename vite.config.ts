@@ -60,6 +60,7 @@ export default defineConfig(({ mode }) => {
 
     server: {
       allowedHosts: [
+        'sb-13r3ek92v3ex.vercel.run',
         '.koyeb.app',
         '.vercel.app',
       ],

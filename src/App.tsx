@@ -553,7 +553,7 @@ const ShopView = () => {
           </article>
         ))}
       </div>
-      <p className="mt-8 text-center text-xs font-medium text-black/45">Pago seguro mediante Stripe. La suscripción se cobra mensualmente.</p>
+      <p className="mt-8 text-center text-xs font-medium text-black/45">Pago seguro con tarjeta o PayPal mediante Stripe. PayPal requiere disponibilidad en tu región y habilitación en Stripe.</p>
       {checkoutError && <p className="mt-4 text-center text-sm font-semibold text-red-700" role="alert">{checkoutError}</p>}
     </section>
   );
