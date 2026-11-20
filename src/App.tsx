@@ -2,7 +2,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { 
   Heart, 
   Grid, 
@@ -16,7 +16,6 @@ import {
   Home,
   Activity,
   ShoppingBag,
-  Zap,
   Download,
   Search,
   Wrench,
@@ -487,10 +486,86 @@ const HomeView = () => {
 };
 
 const SHOP_PLANS = [
-  { id: "starter", name: "Starter", speed: 100, maxSize: "300 MB", resolution: "Audio + video hasta 480p", price: 4, featured: false },
-  { id: "pro", name: "Pro", speed: 300, maxSize: "1 GB", resolution: "Audio + video", price: 6, featured: true },
-  { id: "ultra", name: "Ultra", speed: 500, maxSize: "2 GB", resolution: "Audio + video", price: 8, featured: false },
+  { id: "starter", name: "Starter", speed: 100, maxSize: "300 MB", resolution: "Audio + video hasta 480p", price: 4, featured: false, icon: Activity, summary: "Para proyectos personales y primeras pruebas." },
+  { id: "pro", name: "Pro", speed: 300, maxSize: "1 GB", resolution: "Audio + video", price: 6, featured: true, icon: Layers, summary: "Más potencia para un uso frecuente y constante." },
+  { id: "ultra", name: "Ultra", speed: 500, maxSize: "2 GB", resolution: "Audio + video", price: 8, featured: false, icon: Music, summary: "Rendimiento ampliado para flujos intensivos." },
 ];
+
+const ShopPlanCard = ({
+  plan,
+  index,
+  pending,
+  disabled,
+  onSelect,
+}: {
+  plan: (typeof SHOP_PLANS)[number];
+  key?: string;
+  index: number;
+  pending: boolean;
+  disabled: boolean;
+  onSelect: () => void;
+}) => {
+  const PlanIcon = plan.icon;
+  const shouldReduceMotion = useReducedMotion();
+  const features = [
+    `${plan.speed} Mbps de velocidad`,
+    `Tamaño máximo: ${plan.maxSize}`,
+    plan.resolution,
+    "Procesamiento de audio y video",
+    "Suscripción mensual",
+  ];
+
+  return (
+    <motion.article
+      aria-labelledby={`plan-${plan.id}`}
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 22, scale: 0.985 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: shouldReduceMotion ? 0 : 0.45, delay: shouldReduceMotion ? 0 : index * 0.12, ease: "easeOut" }}
+      whileHover={shouldReduceMotion ? undefined : { y: -6 }}
+      className={`group relative isolate flex min-h-full flex-col overflow-hidden rounded-[30px] border border-white/25 bg-slate-950/80 p-6 text-white shadow-[0_28px_80px_rgba(15,23,42,0.24)] backdrop-blur-2xl md:p-7 ${plan.featured ? "ring-1 ring-lime-200/40" : ""}`}
+    >
+      <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-12 -z-10 h-40 w-40 rounded-full bg-lime-300/15 blur-3xl" />
+      <div className="flex items-start justify-between gap-3">
+        <div className="grid h-12 w-12 place-items-center rounded-2xl border border-white/15 bg-white/10 text-[#d7ff64] shadow-inner backdrop-blur-xl">
+          <PlanIcon size={22} strokeWidth={1.8} aria-hidden="true" />
+        </div>
+        <span className="rounded-full border border-lime-200/25 bg-lime-200/10 px-3 py-1.5 font-sans text-[10px] font-semibold uppercase tracking-[0.16em] text-lime-100">
+          {plan.featured ? "Más popular" : plan.id}
+        </span>
+      </div>
+
+      <h2 id={`plan-${plan.id}`} className="mt-6 font-sans text-[25px] font-bold tracking-[-0.035em] text-white">{plan.name}</h2>
+      <p className="mt-1 font-sans text-sm font-normal leading-6 text-slate-300">{plan.summary}</p>
+
+      <div className="mt-7 flex items-baseline gap-2">
+        <span className="font-sans text-[52px] font-bold leading-none tracking-[-0.07em] text-white">${plan.price}</span>
+        <span className="font-sans text-sm font-normal text-slate-300">USD <span aria-hidden="true">/</span> mes</span>
+      </div>
+      <p className="mt-2 font-sans text-xs font-normal text-slate-400">Facturación mensual · cancela cuando quieras</p>
+
+      <div className="my-6 h-px bg-white/15" />
+      <ul className="flex flex-1 flex-col gap-4 font-sans text-sm font-normal leading-5">
+        {features.map((feature) => (
+          <li key={feature} className="flex items-start gap-3">
+            <CheckCircle2 size={17} aria-hidden="true" className="mt-0.5 shrink-0 text-[#d7ff64]" />
+            <span className="text-slate-100">{feature}</span>
+          </li>
+        ))}
+      </ul>
+
+      <button
+        type="button"
+        onClick={onSelect}
+        disabled={disabled}
+        aria-label={pending ? `Abriendo Stripe para el plan ${plan.name}` : `Ver formas de pago del plan ${plan.name}`}
+        className="mt-8 flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-[#d7ff64] px-5 font-sans text-sm font-semibold text-slate-950 transition duration-200 hover:scale-[1.02] hover:bg-[#e4ff9a] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-lime-300/40 disabled:cursor-wait disabled:opacity-60"
+      >
+        {pending ? "Abriendo Stripe…" : "Ver formas de pago"}
+        {!pending && <ArrowRight size={16} aria-hidden="true" />}
+      </button>
+    </motion.article>
+  );
+};
 
 const ShopView = () => {
   const [pendingPlan, setPendingPlan] = useState<string | null>(null);
@@ -515,46 +590,31 @@ const ShopView = () => {
   };
 
   return (
-    <section className="w-full max-w-[1180px]" aria-labelledby="shop-title">
-      <div className="mx-auto max-w-3xl text-center mb-12 md:mb-16">
-        <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-black/60">
-          <Youtube size={16} className="text-red-600" aria-hidden="true" /> API de YouTube
+    <section className="relative isolate w-full max-w-[1180px] px-1" aria-labelledby="shop-title">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-8 top-28 -z-10 h-72 rounded-full bg-gradient-to-r from-sky-200/60 via-violet-200/55 to-emerald-100/60 blur-3xl" />
+      <header className="mx-auto mb-10 max-w-3xl text-center md:mb-14">
+        <div className="inline-flex items-center gap-2 rounded-full border border-white/80 bg-white/55 px-4 py-2 shadow-[0_8px_32px_rgba(15,23,42,0.08)] backdrop-blur-xl">
+          <Youtube size={15} className="text-red-600" aria-hidden="true" />
+          <span className="font-sans text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-600">API de YouTube · acceso mensual</span>
         </div>
-        <h1 id="shop-title" className="mt-6 text-4xl md:text-6xl font-black tracking-[-0.06em]">Elige tu plan</h1>
-        <p className="mt-4 text-base md:text-lg leading-relaxed text-black/55 font-medium">Acceso mensual a la API de audio y video de YouTube. Cancela cuando quieras.</p>
-      </div>
+        <h1 id="shop-title" className="mt-6 font-sans text-4xl font-bold tracking-[-0.055em] text-slate-950 md:text-6xl">Elige tu plan</h1>
+        <p className="mx-auto mt-4 max-w-xl font-sans text-base font-normal leading-7 text-slate-600 md:text-lg">Potencia de audio y video con un plan que se adapta a tu ritmo. Cancela cuando quieras.</p>
+      </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch">
-        {SHOP_PLANS.map((plan) => (
-          <article key={plan.id} className={`relative flex flex-col rounded-[28px] border p-7 md:p-8 shadow-editorial ${plan.featured ? "border-black bg-black text-white md:-translate-y-3" : "border-black/10 bg-white"}`}>
-            {plan.featured && <span className="absolute -top-3 right-6 rounded-full bg-[#d7ff64] px-3 py-1 text-[10px] font-black uppercase tracking-wider text-black">Más popular</span>}
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-black tracking-tight">{plan.name}</h2>
-              <Zap size={19} aria-hidden="true" className={plan.featured ? "text-[#d7ff64]" : "text-black/50"} />
-            </div>
-            <p className={`mt-2 text-sm font-medium ${plan.featured ? "text-white/60" : "text-black/50"}`}>API de YouTube · mensual</p>
-            <p className="mt-8 flex items-end gap-2"><span className="text-5xl font-black tracking-[-0.07em]">${plan.price}</span><span className={`pb-1 text-sm font-semibold ${plan.featured ? "text-white/55" : "text-black/45"}`}>USD / mes</span></p>
-            <div className={`my-7 h-px ${plan.featured ? "bg-white/15" : "bg-black/10"}`} />
-            <ul className="flex flex-col gap-4 text-sm font-semibold">
-              {[
-                `${plan.speed} Mbps de velocidad`,
-                `Tamaño máximo: ${plan.maxSize}`,
-                plan.resolution,
-                "Procesamiento de audio y video",
-                "Suscripción mensual",
-              ].map((feature) => (
-                <li key={feature} className="flex items-start gap-3"><CheckCircle2 size={17} aria-hidden="true" className={`mt-0.5 shrink-0 ${plan.featured ? "text-[#d7ff64]" : "text-black/50"}`} /><span>{feature}</span></li>
-              ))}
-            </ul>
-            <button type="button" onClick={() => startCheckout(plan.id)} disabled={pendingPlan !== null} className={`mt-8 flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-5 text-sm font-black transition-transform hover:scale-[1.02] disabled:cursor-wait disabled:opacity-60 ${plan.featured ? "bg-[#d7ff64] text-black" : "bg-black text-white"}`}>
-              {pendingPlan === plan.id ? "Abriendo Stripe…" : "Ver formas de pago"}
-              {pendingPlan !== plan.id && <ArrowRight size={16} aria-hidden="true" />}
-            </button>
-          </article>
+      <div className="grid grid-cols-1 items-stretch gap-5 md:grid-cols-3 md:gap-4 lg:gap-6">
+        {SHOP_PLANS.map((plan, index) => (
+          <ShopPlanCard
+            key={plan.id}
+            plan={plan}
+            index={index}
+            pending={pendingPlan === plan.id}
+            disabled={pendingPlan !== null}
+            onSelect={() => startCheckout(plan.id)}
+          />
         ))}
       </div>
-      <p className="mt-8 text-center text-xs font-medium text-black/45">Pago seguro gestionado por Stripe. En la siguiente pantalla podrás elegir entre los métodos habilitados para tu cuenta y región.</p>
-      {checkoutError && <p className="mt-4 text-center text-sm font-semibold text-red-700" role="alert">{checkoutError}</p>}
+      <p className="mx-auto mt-7 max-w-2xl rounded-2xl border border-white/70 bg-white/45 px-4 py-3 text-center font-sans text-xs font-normal leading-5 text-slate-600 shadow-[0_10px_40px_rgba(15,23,42,0.05)] backdrop-blur-xl">Pago seguro gestionado por Stripe. En la siguiente pantalla podrás elegir entre los métodos habilitados para tu cuenta y región.</p>
+      {checkoutError && <p className="mt-4 text-center font-sans text-sm font-semibold text-red-700" role="alert">{checkoutError}</p>}
     </section>
   );
 };
