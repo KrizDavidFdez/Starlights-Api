@@ -14,7 +14,6 @@ import {
   MoreHorizontal,
   ChevronRight,
   Home,
-  Activity,
   ShoppingBag,
   Download,
   Search,
@@ -23,7 +22,6 @@ import {
   Sparkles,
   Youtube,
   Instagram,
-  Music,
   Globe,
   FileText,
   Languages,
@@ -486,9 +484,9 @@ const HomeView = () => {
 };
 
 const SHOP_PLANS = [
-  { id: "starter", name: "Starter", speed: 100, maxSize: "300 MB", resolution: "Audio + video hasta 480p", price: 4, featured: false, icon: Activity, summary: "Para proyectos personales y primeras pruebas." },
+  { id: "starter", name: "Starter", speed: 100, maxSize: "300 MB", resolution: "Audio + video hasta 480p", price: 4, featured: false, icon: Layers, summary: "Para proyectos personales y primeras pruebas." },
   { id: "pro", name: "Pro", speed: 300, maxSize: "1 GB", resolution: "Audio + video", price: 6, featured: true, icon: Layers, summary: "Más potencia para un uso frecuente y constante." },
-  { id: "ultra", name: "Ultra", speed: 500, maxSize: "2 GB", resolution: "Audio + video", price: 8, featured: false, icon: Music, summary: "Rendimiento ampliado para flujos intensivos." },
+  { id: "ultra", name: "Ultra", speed: 500, maxSize: "2 GB", resolution: "Audio + video", price: 8, featured: false, icon: Layers, summary: "Rendimiento ampliado para flujos intensivos." },
 ];
 
 const ShopPlanCard = ({
@@ -522,11 +520,11 @@ const ShopPlanCard = ({
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: shouldReduceMotion ? 0 : 0.45, delay: shouldReduceMotion ? 0 : index * 0.12, ease: "easeOut" }}
       whileHover={shouldReduceMotion ? undefined : { y: -6 }}
-      className={`group relative isolate flex min-h-full flex-col overflow-hidden rounded-[30px] border border-white/25 bg-slate-950/80 p-6 text-white shadow-[0_28px_80px_rgba(15,23,42,0.24)] backdrop-blur-2xl md:p-7 ${plan.featured ? "ring-1 ring-lime-200/40" : ""}`}
+      className={`group relative isolate flex min-h-full flex-col overflow-hidden rounded-[30px] border border-white/30 bg-gradient-to-br from-slate-800/80 via-slate-950/65 to-slate-900/75 p-6 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_28px_80px_rgba(15,23,42,0.28)] backdrop-blur-2xl md:p-7 ${plan.featured ? "ring-1 ring-lime-200/40" : ""}`}
     >
       <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-12 -z-10 h-40 w-40 rounded-full bg-lime-300/15 blur-3xl" />
       <div className="flex items-start justify-between gap-3">
-        <div className="grid h-12 w-12 place-items-center rounded-2xl border border-white/15 bg-white/10 text-[#d7ff64] shadow-inner backdrop-blur-xl">
+        <div className="grid h-12 w-12 place-items-center rounded-2xl border border-white/25 bg-white/10 text-[#d7ff64] shadow-[inset_0_1px_0_rgba(255,255,255,0.2),0_8px_24px_rgba(0,0,0,0.2)] backdrop-blur-xl">
           <PlanIcon size={22} strokeWidth={1.8} aria-hidden="true" />
         </div>
         <span className="rounded-full border border-lime-200/25 bg-lime-200/10 px-3 py-1.5 font-sans text-[10px] font-semibold uppercase tracking-[0.16em] text-lime-100">
